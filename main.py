@@ -85,6 +85,19 @@ class UserInformation:
             f'Количество видео-роликов на канале: {self.channel_videos}\n' \
                f'Ссылка на канал - {self.channel_url}'
 
+    def to_json(self, file_name=''):
+        """Сохраняет данные экземпляра класса в файл."""
+        dict_to_write = {'Channel name':self.channel_name,
+                         'Channel ID':self.channel_id,
+                         'Channel description':self.channel_description,
+                         'Channel subscribers':self.channel_subs,
+                         'Channel views':self.channel_view_count,
+                         'Channel videos':self.channel_videos,
+                         'Channel url':self.channel_url}
+        with open(file_name, 'w') as fp:
+            json.dump(dict_to_write, fp)
+        fp.close()
+
 
 if __name__ == '__main__':
 
@@ -96,7 +109,14 @@ if __name__ == '__main__':
 
         try:
             print(channel_info.information_output())
-            #os.remove(f'{channel_id}.json') для автоматического удаления данных о канале, если потребуется
+            os.remove(f'{channel_id}.json')
+            file_save = input('Сохранить файл с данными о канале?\n'
+                              '(y/n): ')
+            if file_save == 'y':
+                channel_info.to_json('channel_data.json')
+                print('Данные сохранены в файл channel_data.json')
+            else:
+                pass
 
         except Exception as Error:
             print(f'Ошибка поиска YouTube-канала, проверьте правильность введеного ID.'
