@@ -37,7 +37,7 @@ class UserInformation:
         channel_data = open(f'{channel_id}.json', 'w', encoding="UTF-8")
         channel_data.write(f'{self.data}')
         channel_data.close()
-        self.data = open(f'channel_data.json', 'r', encoding="UTF-8")
+        self.data = open(f'{channel_id}.json', 'r', encoding="UTF-8")
         """
         Получаем информацию канала
         """
@@ -52,8 +52,11 @@ class UserInformation:
             self.channel_view_count = self.channel_statistics['viewCount']
             self.channel_subs = self.channel_statistics['subscriberCount']
             self.channel_videos = self.channel_statistics['videoCount']
+            self.data.close()
 
-        except Exception:
+        except Exception as Error:
+            print('Ошибка\n'
+                  f'{Error}')
             pass
 
     @property
@@ -94,7 +97,7 @@ class UserInformation:
                          'Channel views':self.channel_view_count,
                          'Channel videos':self.channel_videos,
                          'Channel url':self.channel_url}
-        with open(file_name, 'w') as fp:
+        with open(file_name, 'w', encoding='UTF-8') as fp:
             json.dump(dict_to_write, fp)
         fp.close()
 
@@ -109,15 +112,16 @@ if __name__ == '__main__':
 
         try:
             print(channel_info.information_output())
-            os.remove(f'{channel_id}.json')
             file_save = input('Сохранить файл с данными о канале?\n'
                               '(y/n): ')
             if file_save == 'y':
                 channel_info.to_json('channel_data.json')
                 print('Данные сохранены в файл channel_data.json')
+                os.remove(f'{channel_id}.json')
             else:
+                os.remove(f'{channel_id}.json')
                 pass
 
         except Exception as Error:
-            print(f'Ошибка поиска YouTube-канала, проверьте правильность введеного ID.'
+            print(f'Ошибка поиска YouTube-канала, проверьте правильность введеного ID.\n'
                   f'{Error}')
