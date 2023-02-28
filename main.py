@@ -22,7 +22,7 @@ search = True
 
 class UserInformation:
 
-    def __init__(self, channel, channel_id):
+    def __init__(self, channel='', channel_id=''):
         """
         Получение данных о канале, записывая их в файл
         :param channel_id: Нужен для создания файла с названием ID канала
@@ -55,8 +55,6 @@ class UserInformation:
             self.data.close()
 
         except Exception as Error:
-            print('Ошибка\n'
-                  f'{Error}')
             pass
 
     @property
@@ -86,7 +84,7 @@ class UserInformation:
             f'\nЧисло подписчиков: {self.channel_subs}\n'\
             f'Общее число просмотров: {self.channel_view_count}\n'\
             f'Количество видео-роликов на канале: {self.channel_videos}\n' \
-               f'Ссылка на канал - {self.channel_url}'
+            f'Ссылка на канал - {self.channel_url}'
 
     def to_json(self, file_name=''):
         """Сохраняет данные экземпляра класса в файл."""
@@ -101,27 +99,65 @@ class UserInformation:
             json.dump(dict_to_write, fp)
         fp.close()
 
+    def search_function(self):
+        """
+        Циклический поиск
+        :return: Информация о канале и возможность сохарнить ее
+        """
+
+        while search != False:
+
+            channel_id = input('Введите ID канала: ')
+            channel = youtube.channels().list(id=channel_id, part='snippet,statistics').execute()
+            channel_info = UserInformation(channel, channel_id)
+
+            try:
+                print(channel_info.information_output())
+                file_save = input('Сохранить файл с данными о канале?\n'
+                                  '(y/n): ')
+                if file_save == 'y':
+                    channel_info.to_json('channel_data.json')
+                    print('Данные сохранены в файл channel_data.json')
+                    os.remove(f'{channel_id}.json') #УДАЛИТЕ ЭТУ СТРОКУ, ЕСЛИ ТРЕБУЕТСЯ СОХРАНЯТЬ КАЖДЫЕ ДАННЫЕ
+                else:
+                    os.remove(f'{channel_id}.json') #УДАЛИТЕ ЭТУ СТРОКУ, ЕСЛИ ТРЕБУЕТСЯ СОХРАНЯТЬ КАЖДЫЕ ДАННЫЕ
+                    pass
+
+            except Exception as Error:
+                print(f'Ошибка поиска YouTube-канала, проверьте правильность введеного ID.\n'
+                      f'{Error}')
+    def __int__(self):
+        return int(self.channel_subs)
+
+    def __str__(self):
+        return f'YouTube-Канал: {self.channel_name}'
+
+    def __gt__(self, other):
+        if int(self.channel_subs) > int(other):
+            return True
+        else:
+            return False
+
+    def __add__(self, other):
+        return int(self.channel_subs)+int(other)
 
 if __name__ == '__main__':
 
-    while search != False:
+    # UserInformation().search_function() # Запуск циклического поиска.
 
-        channel_id = input('Введите ID канала: ')
-        channel = youtube.channels().list(id=channel_id, part='snippet,statistics').execute()
-        channel_info = UserInformation(channel, channel_id)
-
-        try:
-            print(channel_info.information_output())
-            file_save = input('Сохранить файл с данными о канале?\n'
-                              '(y/n): ')
-            if file_save == 'y':
-                channel_info.to_json('channel_data.json')
-                print('Данные сохранены в файл channel_data.json')
-                os.remove(f'{channel_id}.json')
-            else:
-                os.remove(f'{channel_id}.json')
-                pass
-
-        except Exception as Error:
-            print(f'Ошибка поиска YouTube-канала, проверьте правильность введеного ID.\n'
-                  f'{Error}')
+    """
+    Вызов информации о канале отдельно
+    """
+    channel = youtube.channels().list(id='UCwEthvsKuX9ZaqvIaGfG3RQ', part='snippet,statistics').execute()
+    channel1 = UserInformation(channel, 'UCwEthvsKuX9ZaqvIaGfG3RQ')
+    channel = youtube.channels().list(id='UCPx7nkXKVp7iOnxANvMm4HQ', part='snippet,statistics').execute()
+    channel2 = UserInformation(channel, 'UCPx7nkXKVp7iOnxANvMm4HQ')
+    print(channel1) # Название канала
+    print(channel2)
+    print(channel1 > channel2)
+    print(channel1 + channel2)
+    # print(channel1.information_output()) # Общая информация о канале
+    # channel_info.to_json('channel_data.json') # Сохранение в файл
+    # Во время обработки запроса создается файл с данными канала, его лучше удалить
+    os.remove(f'{"UCwEthvsKuX9ZaqvIaGfG3RQ"}.json')
+    os.remove(f'{"UCPx7nkXKVp7iOnxANvMm4HQ"}.json')
