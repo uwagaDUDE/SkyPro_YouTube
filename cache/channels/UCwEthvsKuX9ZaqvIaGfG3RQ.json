@@ -1,0 +1,48 @@
+{
+  "kind": "youtube#channelListResponse",
+  "etag": "cVBr_B3-rH9inrWUwmGjN2Q9RpQ",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 5
+  },
+  "items": [
+    {
+      "kind": "youtube#channel",
+      "etag": "PzIKmPvo7bD5bq3e6E6lyCzlZqo",
+      "id": "UCwEthvsKuX9ZaqvIaGfG3RQ",
+      "snippet": {
+        "title": "Solid",
+        "description": "",
+        "customUrl": "@solid4724",
+        "publishedAt": "2005-11-04T10:54:12Z",
+        "thumbnails": {
+          "default": {
+            "url": "https://yt3.ggpht.com/ytc/AL5GRJWyqnKFAq6dMmQOUkLyJo54t9GVqLvJHZ35YRBD=s88-c-k-c0x00ffffff-no-rj",
+            "width": 88,
+            "height": 88
+          },
+          "medium": {
+            "url": "https://yt3.ggpht.com/ytc/AL5GRJWyqnKFAq6dMmQOUkLyJo54t9GVqLvJHZ35YRBD=s240-c-k-c0x00ffffff-no-rj",
+            "width": 240,
+            "height": 240
+          },
+          "high": {
+            "url": "https://yt3.ggpht.com/ytc/AL5GRJWyqnKFAq6dMmQOUkLyJo54t9GVqLvJHZ35YRBD=s800-c-k-c0x00ffffff-no-rj",
+            "width": 800,
+            "height": 800
+          }
+        },
+        "localized": {
+          "title": "Solid",
+          "description": ""
+        }
+      },
+      "statistics": {
+        "viewCount": "0",
+        "subscriberCount": "24",
+        "hiddenSubscriberCount": false,
+        "videoCount": "0"
+      }
+    }
+  ]
+}
