@@ -1,0 +1,53 @@
+{
+  "kind": "youtube#playlistListResponse",
+  "etag": "GJMlN8eriD75sLWuMhA3IWrLTHg",
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 5
+  },
+  "items": [
+    {
+      "kind": "youtube#playlist",
+      "etag": "B3mcoghNXRlkpW7k4Uj4CIFejnc",
+      "id": "PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD",
+      "snippet": {
+        "publishedAt": "2022-10-20T13:02:56Z",
+        "channelId": "UCNYejKoEJ84iGgXPwTBkCCg",
+        "title": "Литература",
+        "description": "",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/Hr_oHX1VCxA/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/Hr_oHX1VCxA/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/Hr_oHX1VCxA/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/Hr_oHX1VCxA/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/Hr_oHX1VCxA/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "Tamara Eidelman",
+        "localized": {
+          "title": "Литература",
+          "description": ""
+        }
+      }
+    }
+  ]
+}

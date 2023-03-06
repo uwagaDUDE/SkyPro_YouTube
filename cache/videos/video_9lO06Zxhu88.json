@@ -1,0 +1,95 @@
+{
+  "kind": "youtube#videoListResponse",
+  "etag": "su9c4RBEtqWQ3IF4l3aLG71Dt2M",
+  "items": [
+    {
+      "kind": "youtube#video",
+      "etag": "hYoVduwKz29XlmP00vQ0aHSuH78",
+      "id": "9lO06Zxhu88",
+      "snippet": {
+        "publishedAt": "2020-04-23T16:22:02Z",
+        "channelId": "UCMCgOm8GZkHp8zJ6l7_hIuA",
+        "title": "Как устроена IT-столица мира / Russian Silicon Valley (English subs)",
+        "description": "Купить телевизоры Philips с Ambilight 50PUS7303/ 55PUS7303/ 65PUS7303 по промокоду БУДЬВТЕМЕ15 можно в Эльдорадо: https://tinyurl.com/tlexmrd\n\nГерои выпуска: \nАндрей Дороничев https://www.instagram.com/dobry\nНиколай Давыдов https://www.facebook.com/nick.davidov\nРуслан Фазлыев https://www.facebook.com/aznakai\nДмитрий Думик https://www.instagram.com/ddumik\nЕвгений Невгень https://www.instagram.com/nevgen\nМаксим Михеенко https://www.instagram.com/maxim.miheyenko\nМикита Микадо https://www.instagram.com/mikitamikado\nСтанислав Еремин https://www.instagram.com/stan_jer\n\nЧто такое фестиваль Burning Man https://youtu.be/D-113xcG0xg\n\nШоу Подруги https://www.youtube.com/channel/UCByhZ-JEe5OOZSuq0uaXOng\n\nКанал Arzamas https://www.youtube.com/channel/UCVgvnGSFU41kIhEc09aztEg\n\nНевероятные прыжки Серег https://youtu.be/BDhhuRDfb-4\n\nДудь https://vdudvdud.ru/",
+        "thumbnails": {
+          "default": {
+            "url": "https://i.ytimg.com/vi/9lO06Zxhu88/default.jpg",
+            "width": 120,
+            "height": 90
+          },
+          "medium": {
+            "url": "https://i.ytimg.com/vi/9lO06Zxhu88/mqdefault.jpg",
+            "width": 320,
+            "height": 180
+          },
+          "high": {
+            "url": "https://i.ytimg.com/vi/9lO06Zxhu88/hqdefault.jpg",
+            "width": 480,
+            "height": 360
+          },
+          "standard": {
+            "url": "https://i.ytimg.com/vi/9lO06Zxhu88/sddefault.jpg",
+            "width": 640,
+            "height": 480
+          },
+          "maxres": {
+            "url": "https://i.ytimg.com/vi/9lO06Zxhu88/maxresdefault.jpg",
+            "width": 1280,
+            "height": 720
+          }
+        },
+        "channelTitle": "вДудь",
+        "tags": [
+          "it",
+          "бизнес",
+          "интервью",
+          "вдудь",
+          "кремниевая долина",
+          "долина",
+          "сан-франциско",
+          "пало-альто",
+          "маунтин-вью",
+          "стэнфорд",
+          "стэнфордский университет",
+          "образование",
+          "сша",
+          "америка",
+          "дороничев",
+          "фазлыев",
+          "давыдов",
+          "думик",
+          "микадо",
+          "невгень",
+          "msqrd",
+          "стартап",
+          "венчурный каптализм",
+          "мильнер",
+          "юрий мильнер",
+          "дудь",
+          "юрий дудь",
+          "silicon valley",
+          "инвестиции",
+          "google",
+          "youtube"
+        ],
+        "categoryId": "22",
+        "liveBroadcastContent": "none",
+        "localized": {
+          "title": "Как устроена IT-столица мира / Russian Silicon Valley (English subs)",
+          "description": "Купить телевизоры Philips с Ambilight 50PUS7303/ 55PUS7303/ 65PUS7303 по промокоду БУДЬВТЕМЕ15 можно в Эльдорадо: https://tinyurl.com/tlexmrd\n\nГерои выпуска: \nАндрей Дороничев https://www.instagram.com/dobry\nНиколай Давыдов https://www.facebook.com/nick.davidov\nРуслан Фазлыев https://www.facebook.com/aznakai\nДмитрий Думик https://www.instagram.com/ddumik\nЕвгений Невгень https://www.instagram.com/nevgen\nМаксим Михеенко https://www.instagram.com/maxim.miheyenko\nМикита Микадо https://www.instagram.com/mikitamikado\nСтанислав Еремин https://www.instagram.com/stan_jer\n\nЧто такое фестиваль Burning Man https://youtu.be/D-113xcG0xg\n\nШоу Подруги https://www.youtube.com/channel/UCByhZ-JEe5OOZSuq0uaXOng\n\nКанал Arzamas https://www.youtube.com/channel/UCVgvnGSFU41kIhEc09aztEg\n\nНевероятные прыжки Серег https://youtu.be/BDhhuRDfb-4\n\nДудь https://vdudvdud.ru/"
+        },
+        "defaultAudioLanguage": "ru"
+      },
+      "statistics": {
+        "viewCount": "49357390",
+        "likeCount": "976304",
+        "favoriteCount": "0",
+        "commentCount": "79509"
+      }
+    }
+  ],
+  "pageInfo": {
+    "totalResults": 1,
+    "resultsPerPage": 1
+  }
+}
