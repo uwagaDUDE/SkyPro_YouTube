@@ -126,9 +126,7 @@ class UserInformation:
                 if file_save == 'y':
                     channel_info.to_json('channel_data.json')
                     print('Данные сохранены в файл channel_data.json')
-                    os.remove(f'{channel_id}.json') #УДАЛИТЕ ЭТУ СТРОКУ, ЕСЛИ ТРЕБУЕТСЯ СОХРАНЯТЬ КАЖДЫЕ ДАННЫЕ
                 else:
-                    os.remove(f'{channel_id}.json') #УДАЛИТЕ ЭТУ СТРОКУ, ЕСЛИ ТРЕБУЕТСЯ СОХРАНЯТЬ КАЖДЫЕ ДАННЫЕ
                     pass
 
             except Exception as Error:
@@ -245,18 +243,18 @@ def clear_cache():
 
 if __name__ == '__main__':
 
-    # UserInformation().search_function() # Запуск циклического поиска.
+    UserInformation().search_function() # Запуск циклического поиска.
 
-    """
-    Вызов информации о канале отдельно
-    """
-    channel = youtube.channels().list(id='UCwEthvsKuX9ZaqvIaGfG3RQ', part='snippet,statistics').execute()
-    channel1 = UserInformation(channel, 'UCwEthvsKuX9ZaqvIaGfG3RQ')
-    channel = youtube.channels().list(id='UCPx7nkXKVp7iOnxANvMm4HQ', part='snippet,statistics').execute()
-    channel2 = UserInformation(channel, 'UCPx7nkXKVp7iOnxANvMm4HQ')
-    print(channel1) # Название канала
-    print(channel2)
-    print(channel1 > channel2)
-    print(channel1 + channel2)
-    print(PLVideo('9lO06Zxhu88', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD'))
-    # clear_cache()
+    # """
+    # Вызов информации о канале отдельно
+    # """
+    # channel = youtube.channels().list(id='UCwEthvsKuX9ZaqvIaGfG3RQ', part='snippet,statistics').execute()
+    # channel1 = UserInformation(channel, 'UCwEthvsKuX9ZaqvIaGfG3RQ')
+    # channel = youtube.channels().list(id='UCPx7nkXKVp7iOnxANvMm4HQ', part='snippet,statistics').execute()
+    # channel2 = UserInformation(channel, 'UCPx7nkXKVp7iOnxANvMm4HQ')
+    # print(channel1) # Название канала
+    # print(channel2)
+    # print(channel1 > channel2)
+    # print(channel1 + channel2)
+    # print(PLVideo('9lO06Zxhu88', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD'))
+    # # clear_cache()
