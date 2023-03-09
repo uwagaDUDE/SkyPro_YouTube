@@ -3,6 +3,7 @@ from googleapiclient.discovery import build
 import json
 import os
 import requests
+import isodate
 
 #Проверяем введен ли api_key в .env, и существует ли он вообще,
 #если нет то создаем и просим ввести ключ
@@ -16,6 +17,28 @@ except Exception as Error:
     dotenv_file.write(f'YOUTUBE_API={new_api}')
     dotenv_file.close()
     api_key = dotenv_values('.env')['YOUTUBE_API']
+
+# Проверка наличие папки cache
+# Channels, Playlists, videos
+if os.path.exists('./.cache'):
+    if os.path.exists('./.cache/channels'):
+        pass
+    else:
+        os.mkdir('./.cache/channels')
+    if os.path.exists('./.cache/playlists'):
+        pass
+    else:
+        os.mkdir('./.cache/playlists')
+    if os.path.exists('./.cache/videos'):
+        pass
+    else:
+        os.mkdir('./.cache/videos')
+else:
+    os.mkdir('./.cache')
+    os.mkdir('./.cache/channels')
+    os.mkdir('./.cache/playlists')
+    os.mkdir('./.cache/videos')
+
 
 youtube = build('youtube', 'v3', developerKey=api_key)
 search = True
@@ -36,13 +59,13 @@ class UserInformation:
         """
         self.data = json.dumps(channel, indent=2, ensure_ascii=False)
         if self.ethernet_connection() == 200:
-            channel_data = open(f'./cache/channels/{channel_id}.json', 'w', encoding="UTF-8")
+            channel_data = open(f'./.cache/channels/{channel_id}.json', 'w', encoding="UTF-8")
             channel_data.write(f'{self.data}')
             channel_data.close()
-            self.data = open(f'./cache/channels/{channel_id}.json', 'r', encoding="UTF-8")
+            self.data = open(f'./.cache/channels/{channel_id}.json', 'r', encoding="UTF-8")
         else:
             try:
-                self.data = open(f'./cache/channels/{channel_id}.json', 'r', encoding="UTF-8")
+                self.data = open(f'./.cache/channels/{channel_id}.json', 'r', encoding="UTF-8")
             except Exception:
                 print('Не удалось получить информацию о канале.')
 
@@ -163,20 +186,25 @@ class Video:
         """
         self.video_id = video_id
         self.video_name = video_name
-        # self.video_likes = video_likes
-        # self.video_views = video_views
-        video = youtube.videos().list(id=video_id, part='snippet,statistics').execute()
+        #self.video_likes = video_likes
+        #self.video_views = video_views
+        try:
+            video = youtube.videos().list(id=video_id, part='snippet,statistics').execute()
+        except Exception:
+            raise Exception(f'Ой! Что то пошло не так!')
+
         if self.ethernet_connection() == 200:
             self.video_loads = json.dumps(video, indent=2, ensure_ascii=False)
-            with open(f'./cache/videos/video_{video_id}.json', 'w', encoding='UTF-8') as video_file:
+            with open(f'./.cache/videos/video_{video_id}.json', 'w', encoding='UTF-8') as video_file:
                 video_file.write(self.video_loads)
                 video_file.close()
                 try:
                     self.video_name = self.video_data()['items'][0]['snippet']['title']
                     self.video_views = self.video_data()['items'][0]['statistics']['viewCount']
                     self.video_likes = self.video_data()['items'][0]['statistics']['likeCount']
+                    self.video_url = f'https://www.youtube.com/watch?v={video_id}'
                 except Exception as error:
-                    print(f'{error}')
+                    pass
 
         else:
             try:
@@ -187,11 +215,15 @@ class Video:
                 raise Exception(f'Не возможно получить информацию о видео')
 
     def video_data(self):
-        with open(f'./cache/videos/video_{self.video_id}.json', 'r', encoding='UTF-8') as video_file:
+        with open(f'./.cache/videos/video_{self.video_id}.json', 'r', encoding='UTF-8') as video_file:
             return json.load(video_file)
 
     def cache_video_data(self):
-        with open(f'./cache/videos/video_{self.video_id}.json', 'r', encoding='UTF-8') as video_file:
+        '''
+        Берем инфомрацию из кэша, если такой имеется
+        :return:
+        '''
+        with open(f'./.cache/videos/video_{self.video_id}.json', 'r', encoding='UTF-8') as video_file:
             self.video_data = json.load(video_file)
             try:
                 self.video_name = self.video_data['items'][0]['snippet']['title']
@@ -208,42 +240,121 @@ class Video:
 
     def __str__(self):
         return f'Название видео: {self.video_name}'
+
 class PLVideo(Video):
 
-    def __init__(self, video_id, playlist_id=''):
-        super().__init__(video_id)
+    def __init__(self, playlist_id='', video_id=None):
+        try:
+            super().__init__(video_id)
+        except Exception:
+            pass
         self.playlist_id = playlist_id
         playlist = youtube.playlists().list(part='snippet', id=playlist_id).execute()
         pl_data = json.dumps(playlist, indent=2, ensure_ascii=False)
-        with open(f'./cache/playlists/pl_{playlist_id}.json', 'w', encoding='UTF-8') as playlist_file:
+        with open(f'./.cache/playlists/pl_{playlist_id}.json', 'w', encoding='UTF-8') as playlist_file:
             playlist_file.write(pl_data)
             playlist_file.close()
-        with open(f'./cache/playlists/pl_{playlist_id}.json', 'r', encoding='UTF-8') as playlist_file:
+        with open(f'./.cache/playlists/pl_{playlist_id}.json', 'r', encoding='UTF-8') as playlist_file:
             try:
                 self.pl_data = json.load(playlist_file)
                 self.pl_name = self.pl_data['items'][0]['snippet']['title']
 
-            except Exception:
-                print('Ошибка')
+            except Exception as error:
+                print('PLVideo func error ')
+
 
     def __str__(self):
-        return f'Название видео: {self.video_name} \n' \
-               f'Плейлист: {self.pl_name}'
+        if self.video_id != None:
+            return f'Название видео: {self.video_name} \n' \
+                    f'Плейлист: {self.pl_name}'
+        else:
+            print(self.video_name)
+            return f'Плейлист: {self.pl_name}'
 
+
+class Playlist(PLVideo):
+
+    total_duration = 0
+
+    def __init__(self, playlist_id=''):
+        """
+        :param playlist_id: ID плейлиста с YouTube
+        """
+        super().__init__(playlist_id)
+        try:
+            with open(f'./.cache/playlists/pl_{playlist_id}.json', 'r', encoding='UTF-8') as playlist_file:
+                    self.pl_data = json.load(playlist_file)
+                    self.pl_name = self.pl_data['items'][0]['snippet']['title']
+                    self.pl_url = f'https://www.youtube.com/playlist?list={playlist_id}'
+        except Exception:
+            raise Exception('Плейлист не найден')
+
+        request = youtube.playlistItems().list(part='snippet',playlistId=f'{playlist_id}',).execute()
+
+        pl_data = json.dumps(request, indent=2, ensure_ascii=False)
+        temp_file = open('./.cache/.temp.json', 'w', encoding='UTF-8')
+        temp_file.write(pl_data)
+        temp_file.close()
+        temp_file = open('./.cache/.temp.json', 'r', encoding='UTF-8')
+        self.video_ids = []
+        self.playlist_data = json.load(temp_file)
+        for i in self.playlist_data['items']:
+            self.video_ids.append(i['snippet']['resourceId']['videoId'])
+        temp_file.close()
+        os.remove('.cache/.temp.json')
+
+    def best_video(self):
+        """
+        Используем класс Video для получения данных о видео, далее сортируем их с помощью функции max,
+        и получаем таким образом видео с самым большим количеством лайков
+        :return:
+        """
+        videos = []
+        for x in self.video_ids:
+            videos.append(f'{Video(x).video_likes}@{Video(x).video_name}@{Video(x).video_url}')
+        output = max(videos).split('@')
+        return f'Название ролика: {output[1]}\n' \
+               f'Количество лайков: {output[0]}\n' \
+               f'Ссылка на видеоролик: {output[2]}'
+
+    def total_dur(self):
+        all_time = []
+        for vids in self.video_ids:
+            request = youtube.videos().list(part='contentDetails', id=vids).execute()
+            duration = request['items'][0]['contentDetails']['duration']
+            duration_in_seconds = isodate.parse_duration(duration).total_seconds()
+            all_time.append(duration_in_seconds)
+        output = sum(all_time)
+        return f'Общая длительность плейлиста: {output} секунд.\n' \
+               f'В минутах это будет примерно {int(output/60)} минут\n' \
+               f'Либо около {int(output/60/60)} часов '
+
+
+
+    def __str__(self):
+        return f'Название: {self.pl_name}\n' \
+               f'Ссылка: {self.pl_url}'
 
 def clear_cache():
     """
     Функция очистки папки с кэшем
     :return:
     """
-    cache_dir = './cache'
+    cache_dir = './.cache'
     for root, dirs, files in os.walk(cache_dir):
         for file in files:
             os.remove(os.path.join(root, file))
 
+
 if __name__ == '__main__':
 
-    UserInformation().search_function() # Запуск циклического поиска.
+
+
+     x = Playlist('PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
+     print(x.total_dur())
+     # print(PLVideo('PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD', '9lO06Zxhu88'))
+
+    #UserInformation().search_function() # Запуск циклического поиска.
 
     # """
     # Вызов информации о канале отдельно
@@ -256,5 +367,4 @@ if __name__ == '__main__':
     # print(channel2)
     # print(channel1 > channel2)
     # print(channel1 + channel2)
-    # print(PLVideo('9lO06Zxhu88', 'PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD'))
-    # # clear_cache()
+    # clear_cache()
