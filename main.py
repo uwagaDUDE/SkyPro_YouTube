@@ -4,10 +4,11 @@ import json
 import os
 import requests
 import isodate
+import time
 
 #Проверяем введен ли api_key в .env, и существует ли он вообще,
 #если нет то создаем и просим ввести ключ
-
+t1 = time.time()
 try:
     api_key = dotenv_values('.env')['YOUTUBE_API']
 
@@ -68,7 +69,6 @@ class UserInformation:
                 self.data = open(f'./.cache/channels/{channel_id}.json', 'r', encoding="UTF-8")
             except Exception:
                 print('Не удалось получить информацию о канале.')
-
         """
         Получаем информацию канала
         """
@@ -135,7 +135,6 @@ class UserInformation:
         Циклический поиск
         :return: Информация о канале и возможность сохарнить ее
         """
-
         while search != False:
 
             channel_id = input('Введите ID канала: ')
@@ -204,7 +203,7 @@ class Video:
                     self.video_likes = self.video_data()['items'][0]['statistics']['likeCount']
                     self.video_url = f'https://www.youtube.com/watch?v={video_id}'
                 except Exception as error:
-                    pass
+                    raise Exception('Такого видео не найдено (wrong video ID)')
 
         else:
             try:
@@ -234,6 +233,7 @@ class Video:
                        f'Количество лайков: {self.video_likes}\n'
             except Exception as error:
                 return f'{error}'
+
     def ethernet_connection(self):
         yt_response = requests.get('https://www.youtube.com/')
         return yt_response.status_code
@@ -244,10 +244,13 @@ class Video:
 class PLVideo(Video):
 
     def __init__(self, playlist_id='', video_id=None):
+
         try:
             super().__init__(video_id)
+
         except Exception:
             pass
+
         self.playlist_id = playlist_id
         playlist = youtube.playlists().list(part='snippet', id=playlist_id).execute()
         pl_data = json.dumps(playlist, indent=2, ensure_ascii=False)
@@ -348,23 +351,8 @@ def clear_cache():
 
 if __name__ == '__main__':
 
+    bv = Video('123')
+    print(bv.video_name)
 
 
-     x = Playlist('PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD')
-     print(x.total_dur())
-     # print(PLVideo('PL7Ntiz7eTKwrqmApjln9u4ItzhDLRtPuD', '9lO06Zxhu88'))
-
-    #UserInformation().search_function() # Запуск циклического поиска.
-
-    # """
-    # Вызов информации о канале отдельно
-    # """
-    # channel = youtube.channels().list(id='UCwEthvsKuX9ZaqvIaGfG3RQ', part='snippet,statistics').execute()
-    # channel1 = UserInformation(channel, 'UCwEthvsKuX9ZaqvIaGfG3RQ')
-    # channel = youtube.channels().list(id='UCPx7nkXKVp7iOnxANvMm4HQ', part='snippet,statistics').execute()
-    # channel2 = UserInformation(channel, 'UCPx7nkXKVp7iOnxANvMm4HQ')
-    # print(channel1) # Название канала
-    # print(channel2)
-    # print(channel1 > channel2)
-    # print(channel1 + channel2)
     # clear_cache()
