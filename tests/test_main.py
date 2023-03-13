@@ -1,7 +1,7 @@
 import main
 from googleapiclient.discovery import build
 def test_main():
-    youtube = build('youtube', 'v3', developerKey='AIzaSyDpe1BX2Gpeq38aHN5dS7A5oeUciTTAUTE')
+    youtube = build('youtube', 'v3', developerKey='ВАШ_АПИ_КЛЮЧ')
     channel = youtube.channels().list(id='UCwEthvsKuX9ZaqvIaGfG3RQ', part='snippet,statistics').execute()
     channel1 = main.UserInformation(channel, 'UCPx7nkXKVp7iOnxANvMm4HQ')
     assert str(channel1) == 'YouTube-Канал: Solid'
